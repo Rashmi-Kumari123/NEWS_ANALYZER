@@ -20,7 +20,6 @@ app = Flask(__name__)
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
-nltk.download('universal_tagset')
 
 ###########################################       Database setup   ###########################################################
 database_url = "dpg-cnmn6gmn7f5s73d7s5f0-a.oregon-postgres.render.com"
