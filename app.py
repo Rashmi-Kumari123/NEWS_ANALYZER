@@ -20,7 +20,7 @@ app = Flask(__name__)
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
-nltk.download('universal tagset')
+nltk.download('universal_tagset')
 
 
 
