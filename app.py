@@ -177,7 +177,7 @@ github = oauth.register(
 
 
 # GitHub admin usernames for verification
-github_admin_usernames = ["rashu-2375", "atmabodh"]
+github_admin_usernames = ["rashu-2375", "atmabodha"]
 
 @app.route('/login/github') # this route redirects the user to the GitHub authorization page
 def github_login():
