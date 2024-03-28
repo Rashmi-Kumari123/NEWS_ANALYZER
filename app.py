@@ -22,12 +22,13 @@ nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
 
 ###########################################       Database setup   ###########################################################
-
+database_url = "dpg-cnmn6gmn7f5s73d7s5f0-a.oregon-postgres.render.com"
+host = f"{database_url}"
 conn = psycopg2.connect(  
-    host="localhost",
-    database="DHP2024",
-    user="postgres",
-    password="2375rash"
+    host = host,
+    dbname="dhp2024_muqf",
+    user="dhp2024_muqf_user",
+    password="VDnibngKxYSg9RYrQRNEdKz0QFm2f0v6",
 )
 
 
@@ -284,4 +285,4 @@ def logout():
 
     
 if __name__ == '__main__':
-    app.run(debug=True, port = 5000)
+    app.run(debug=True, port = 5000, host = '0.0.0.0')
