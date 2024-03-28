@@ -28,7 +28,7 @@ conn = psycopg2.connect(
     host = host,
     dbname="dhp2024_muqf",
     user="dhp2024_muqf_user",
-    password="VDnibngKxYSg9RYrQRNEdKz0QFm2f0v6",
+    password="VDnibngKxYSg9RYrQRNEdKz0QFm2f0v6"
 )
 
 
