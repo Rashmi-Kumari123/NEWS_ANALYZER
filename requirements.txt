@@ -18,4 +18,5 @@ urllib3           ==   2.1.0
 Werkzeug          ==   3.0.1
 webencodings      ==   0.5.1
 websocket-client  ==   1.7.0
-flash  ==  1.0.3
+flash              ==  1.0.3
+gunicorn             ==  21.2.0
