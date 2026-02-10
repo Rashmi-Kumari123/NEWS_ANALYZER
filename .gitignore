@@ -1,0 +1,19 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+
+# Logs
+*.log
+
+# Local database
+*.db
+
+# Environment variables
+.env
+
+# Optional build scripts
+build.sh

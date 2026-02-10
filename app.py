@@ -25,13 +25,14 @@ nltk.download('universal_tagset')
 
 
 ###########################################       Database setup   ###########################################################
-database_url = "dpg-cnmn6gmn7f5s73d7s5f0-a.oregon-postgres.render.com"
-host = f"{database_url}"
+# database_url = "dpg-cnmn6gmn7f5s73d7s5f0-a.oregon-postgres.render.com"
+host = "localhost"
 conn = psycopg2.connect(  
     host = host,
-    dbname="dhp2024_muqf",
-    user="dhp2024_muqf_user",
-    password="VDnibngKxYSg9RYrQRNEdKz0QFm2f0v6"
+    dbname= "newsDB",      
+    user=    "postgres",    
+    password= "Rashmi@123",
+    port = "5432" 
 )
 
 
@@ -161,7 +162,7 @@ def fetch_history():
 oauth = OAuth(app)
 app.config['SECRET_KEY'] = "secret"
 app.config['GITHUB_CLIENT_ID'] = "Iv1.548ac24ff7f506c6"
-app.config['GITHUB_CLIENT_SECRET'] = "1bd71f728e3b19c8c7fd4243924483089f438c08"
+app.config['GITHUB_CLIENT_SECRET'] = "04d34ab45db9a8d38de89ae798c697c03772160a"
 
 github = oauth.register(
     name='github',
@@ -177,7 +178,7 @@ github = oauth.register(
 
 
 # GitHub admin usernames for verification
-github_admin_usernames = ["rashu-2375", "atmabodha"]
+github_admin_usernames = ["Rashmi-Kumari123"]
 
 @app.route('/login/github') # this route redirects the user to the GitHub authorization page
 def github_login():
