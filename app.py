@@ -52,16 +52,22 @@ conn.commit()
 cur.execute("""
     CREATE TABLE IF NOT EXISTS news_articles (
         id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
         URL TEXT,
         Title varchar,
         Text TEXT,
         Num_words int,
         Num_sentences int,
         Pos_tag TEXT
-      
     )
 """)
 conn.commit()
+# Add user_id if table already existed without it
+try:
+    cur.execute("ALTER TABLE news_articles ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id)")
+    conn.commit()
+except Exception:
+    pass
 
 
 ######################################### helper function for Cleaning  ############################################
@@ -138,11 +144,12 @@ def submit():
         count_hyperlink +=1
 
     
-    # Store the data in the database
+    # Store the data in the database (with user_id when logged in)
+    user_id = session.get('user_id')
     cur.execute("""
-        INSERT INTO news_articles (URL, Title, Text, Num_words, Num_sentences, Pos_tag)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (url, title, news_text, num_words, num_sentences, str(upos_dict)))
+        INSERT INTO news_articles (user_id, URL, Title, Text, Num_words, Num_sentences, Pos_tag)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """, (user_id, url, title, news_text, num_words, num_sentences, str(upos_dict)))
     conn.commit()
 
     
@@ -153,10 +160,33 @@ def submit():
 def fetch_history():
     cur.execute("SELECT * FROM news_articles")
     data = cur.fetchall()
-    return data 
+    return data
 
 
-    
+def fetch_user_history(user_id):
+    """Fetch analysis history for the given user only."""
+    cur.execute(
+        """SELECT id, URL, Title, Text, Num_words, Num_sentences, Pos_tag
+           FROM news_articles WHERE user_id = %s ORDER BY id DESC""",
+        (user_id,)
+    )
+    return cur.fetchall()
+
+
+@app.route('/history')
+def history():
+    """Per-user history: only this user's analyses."""
+    if not session.get('logged_in'):
+        flash('Please log in to view your history.')
+        return redirect(url_for('login'))
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('Please log in again to view your history.')
+        return redirect(url_for('login'))
+    articles = fetch_user_history(user_id)
+    return render_template('history.html', articles=articles, username=session.get('username', ''))
+
+
 ########################################    Authentication  ###################################################
 
 oauth = OAuth(app)
@@ -205,19 +235,16 @@ def github_authorize():
             return render_template("admin.html", articles = data,usernames = usernames)
         
         else:
-            return redirect(url_for('index'))
-    except:
-        return redirect(url_for('index'))
+            return redirect(url_for('home'))
+    except Exception:
+        return redirect(url_for('home'))
 
     
 # Logout route for GitHub
 @app.route('/logout/github')
 def github_logout():
     session.clear()
-    # session.pop('github_token', None)()
-    print("logout")
-    # return redirect(url_for('index'))
-    return redirect(url_for('index'))
+    return redirect(url_for('home'))
 
 
 ######################################### Login and Signup #############################################
@@ -256,6 +283,7 @@ def login():
         if user:
             session['logged_in'] = True
             session['username'] = username
+            session['user_id'] = user[0]
             return redirect(url_for('home'))
         else:
             flash('Invalid username or password')
@@ -281,10 +309,9 @@ def back_home():
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
-    # Clear the session
     session.pop('logged_in', None)
     session.pop('username', None)
-    # Redirect to the login page
+    session.pop('user_id', None)
     return redirect(url_for('login'))
 
     
