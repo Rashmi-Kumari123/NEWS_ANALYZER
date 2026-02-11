@@ -62,7 +62,6 @@ cur.execute("""
     )
 """)
 conn.commit()
-# Add user_id if table already existed without it
 try:
     cur.execute("ALTER TABLE news_articles ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id)")
     conn.commit()
