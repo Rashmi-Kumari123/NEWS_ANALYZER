@@ -18,7 +18,6 @@
         }
 
         .container {
-            /* background-color: #fff; */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -70,18 +69,13 @@
             display: inline-block;
             margin-bottom: 20px;
             position: fixed;
-            /* Set button position to fixed */
             top: 20px;
-            /* Adjust top position as needed */
             left: 20px;
-            /* Adjust left position as needed */
             z-index: 99;
-            /* Ensure the button is on top of other content */
         }
 
         button.logout {
             background-color: rgb(239, 44, 44);
-            /* Red color for logout button */
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -92,13 +86,9 @@
             display: inline-block;
             margin-bottom: 20px;
             position: fixed;
-            /* Set button position to fixed */
             top: 20px;
-            /* Adjust top position as needed */
-            left: calc(20px + 140px);
-            /* Adjust left position as needed (20px + width of previous button + margin) */
-            z-index: 99;
-            /* Ensure the button is on top of other content */
+            z-index: 99; /* button is on top of other content */
+            
         }
 
         button:hover {
